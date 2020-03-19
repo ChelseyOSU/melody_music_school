@@ -3,24 +3,71 @@
   <head>
     <meta charset="utf-8">
     <title>Flask Parent Template</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/template.css') }}">
+  <style>
+    .collapsible {
+      background-color: #777;
+      color: white;
+      cursor: pointer;
+      padding: 18px;
+      width: 100%;
+      border: none;
+      text-align: left;
+      outline: none;
+      font-size: 15px;
+    }
+
+    .active, .collapsible:hover {
+      background-color: #555;
+    }
+
+    .content {
+      padding: 0 10px;
+      display: none;
+      overflow: hidden;
+      background-color: #EAE7DC;
+    }
+</style>
   </head>
   <body>
     <header>
       <div class="container">
         <h1 class="logo">Melody Music School</h1>
-        <strong><nav>
-          <ul class="menu">
-            <li><a href="{{ url_for('home') }}">Home</a></li>
-            <li><a href="{{ url_for('about_us') }}">About us</a></li>
-            <li><a href="{{ url_for('browse_students') }}"> View and update students</a></li>
-            <li><a href="{{ url_for('add_new_student') }}"> Add new students</a></li>
-            <li><a href="{{ url_for('browse_courses') }}"> View courses</a></li>
-            <li><a href="{{ url_for('browse_grades_start') }}"> View and update grades</a></li>
-          </ul>
-        </nav></strong>
+            <button type="button" class="collapsible" onclick="window.location.href='{{ url_for('home') }}'"> Home</button>
+            <button type="button" class="collapsible" onclick="window.location.href='{{ url_for('about_us') }}'"> About Us</button>
+            <button type="button" class="collapsible">Students</button>
+            <div class="content">
+            <ul class="students">
+              <li> <a href="{{ url_for('browse_students') }}"> View and update students</a> </li>
+              <li> <a href="{{ url_for('add_new_student') }}"> Add new students</a> </li>
+            </ul>
+            </div>
+
+            <button type="button" class="collapsible">Courses</button>
+            <div class="content">
+            <ul class="courses">
+              <li> <a href="{{ url_for('browse_courses') }}"> View courses</a> </li>
+              <li> <a href="{{ url_for('browse_grades_start') }}"> View and update grades </a> </li>
+            </ul>
+            </div>
       </div>
     </header>
+    <script>
+        var coll = document.getElementsByClassName("collapsible");
+        var i;
+        for (i = 0; i < coll.length; i++) {
+          coll[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var content = this.nextElementSibling;
+            if (content.style.display === "block") {
+              content.style.display = "none";
+            } else {
+              content.style.display = "block";
+            }
+          });
+        }
+    </script>
     {% block content %}
     {% endblock %}
   </body>

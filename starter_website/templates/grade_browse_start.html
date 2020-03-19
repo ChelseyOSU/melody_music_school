@@ -13,13 +13,13 @@
         <div class="input-group">
           <span class="input-group-addon"> <h4> Please select a course to view grades: </h4> </span>
             <br>
-            <br>
                 <select name="comp_select" class="selectpicker form-control">
                   {% for o in course %}
                   <option value="{{ o[0] }}">{{ o[1] }}</option>
                   {% endfor %}
                 </select>
         </div>
+        <br>
         <button type="submit" class="btn btn-default">View grades</button>
       </div>
     </form>
