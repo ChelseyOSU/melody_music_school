@@ -1,2 +1,4 @@
-db_credentials.py
 *.pyc
+.DS_Store
+.idea
+venv

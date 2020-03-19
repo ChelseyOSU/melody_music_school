@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>About Us</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/paragraph.css') }}">
+  </head>
+  <body>
+    {% extends "template.html" %}
+    {% block content %}
+    <h1> About Us </h1>
+    <p> Melody music school is expanding its effort to enroll more and more talented students who are interested in becoming musicians in the future to perfect their music skills.
+      The school is determined to replace their paper-based database with a modern digital database which is far more scalable and easier to maintain.
+      A database website will record students that have been enrolled so far, the classes they have taken, the grades they have achieved in each course,
+      as well as enrollment information.
+      School administrations can easily query the database to answer questions.
+    </p>
+    {% endblock %}
+  </body>
+</html>

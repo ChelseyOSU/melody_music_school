@@ -1,12 +1,14 @@
 import MySQLdb as mariadb
 from db_credentials import host, user, passwd, db
 
+
 def connect_to_database(host = host, user = user, passwd = passwd, db = db):
     '''
     connects to a database and returns a database objects
     '''
     db_connection = mariadb.connect(host,user,passwd,db)
     return db_connection
+
 
 def execute_query(db_connection = None, query = None, query_params = ()):
     '''
@@ -44,6 +46,7 @@ def execute_query(db_connection = None, query = None, query_params = ()):
     # changes will be committed!
     db_connection.commit();
     return cursor
+
 
 if __name__ == '__main__':
     print("Executing a sample query on the database using the credentials from db_credentials.py")

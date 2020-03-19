@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <head><title>Browse courses</title></head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/students.css') }}">
+  </head>
+  <body>
+    {% extends "template.html" %}
+    {% block content %}
+    <form class="form-inline" method="POST" action="{{ url_for('browse_grades') }}">
+      <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-addon"> Please select a course to view grades:</span>
+            <br>
+            <br>
+                <select name="comp_select" class="selectpicker form-control">
+                  {% for o in course %}
+                  <option value="{{ o[0] }}">{{ o[1] }}</option>
+                  {% endfor %}
+                </select>
+        </div>
+        <button type="submit" class="btn btn-default">View grades</button>
+      </div>
+    </form>
+    <h4><a href='/'>Go back to home page</a></h4>
+    {% endblock %}
+  </body>
+</html>
+

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Flask Parent Template</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/template.css') }}">
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <h1 class="logo">Melody Music School</h1>
+        <strong><nav>
+          <ul class="menu">
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('about_us') }}">About us</a></li>
+            <li><a href="{{ url_for('browse_students') }}"> View and update students</a></li>
+            <li><a href="{{ url_for('add_new_student') }}"> Add new students</a></li>
+            <li><a href="{{ url_for('browse_courses') }}"> View courses</a></li>
+            <li><a href="{{ url_for('browse_grades_start') }}"> View and update grades</a></li>
+          </ul>
+        </nav></strong>
+      </div>
+    </header>
+    {% block content %}
+    {% endblock %}
+  </body>
+</html>

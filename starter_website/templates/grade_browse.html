@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <head><title>Browse courses</title></head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/students.css') }}">
+  </head>
+  <body>
+    {% extends "template.html" %}
+    {% block content %}
+    <h4> Show grades from high to low </h4>
+    <table>
+            <thead>
+                <th>Class Name</th>
+                <th>Student first name </th>>
+                <th>Student last name </th>
+                <th>Grade</th>
+                <th>Update Grade</th>
+                <th>Delete Grade</th>
+            </thead>
+            <tbody>
+              {% for r in rows %}
+              <tr>
+                  <td> {{ r[0] }}</td>
+                  <td> {{ r[1] }}</td>
+                  <td> {{ r[2] }}</td>
+                  <td> {{ r[3] }}</td>
+                  <td> <input type='button' name='Update' value='Update'
+                    onclick="window.location = '/update_grade/{{r[4]}}'"> </td>
+                  <td> <input type='button' name='Delete' value='Delete' onclick="window.location = '/delete_grade/{{r[4]}}'"> </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+        </table>
+        <h4><a href='/browse_grades_start'>Select another course to view grades</a></h4>
+        <h4><a href='/'>Go back to home page</a></h4>
+    {% endblock %}
+  </body>
+</html>
+

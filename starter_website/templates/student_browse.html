@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <head><title>Browse students</title></head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/students.css') }}">
+  </head>
+  <body>
+    {% extends "template.html" %}
+    {% block content %}
+        <h3>Current students</h3>
+        <table>
+            <thead>
+                <th>Avatar </th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Age</th>
+                <th>Update student</th>
+                <th>Delete student</th>
+            </thead>
+            <tbody>
+              {% for r in rows %}
+              <tr>
+                  <td><img src= {{  r[4] }} alt="" border=3 height=100 width=100></td>
+                  <td> {{ r[0] }}</td>
+                  <td> {{ r[1] }}</td>
+                  <td> {{ r[2] }}</td>
+                  <td> <input type='button' name='Update' value='Update'
+                    onclick="window.location = '/update_student/{{r[3]}}'"> </td>
+                  <td> <input type='button' name='Delete' value='Delete' onclick="window.location = '/delete_student/{{r[3]}}'"> </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+        </table>
+        <h4><a href='/'>Go back to home page</a></h4>
+    {% endblock %}
+  </body>
+</html>
+

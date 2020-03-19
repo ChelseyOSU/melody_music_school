@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <head><title>Update student</title></head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/students.css') }}">
+  </head>
+  <body>
+    {% extends "template.html" %}
+    {% block content %}
+      <h3>Update student:</h3>
+      <form id="update_student" action="/update_student/{{students[0]}}" method="post">
+        <!-- student_id {{ student_id }} -->
+        <input type="hidden" name="student_id" value = "{{ students[0] }}">
+        First name: <input type="text" name="first_name" value = "{{ students[1] }}"><br>
+        Last name: <input type="text" name="last_name" value = "{{ students[2] }}" ><br>
+        Age: <input type="number" name="age" value = "{{ students[3]}} "><br>
+          <input type="submit" value="Submit">
+       </form>
+      <br/>
+    {% endblock %}
+  <h4><a href='/'>Go back to home page</a></h4>
+  </body>
+</html>
