@@ -45,7 +45,7 @@ def add_new_student():
         query = 'INSERT INTO students (first_name, last_name, age, avatar_link) VALUES (%s,%s,%s,%s)'
         data = (first_name, last_name, age, avatar_link)
         execute_query(db_connection, query, data)
-        return ('Student added!');
+        return redirect('/browse_students')
 
 
 # display update form and process any updates, using the same function
