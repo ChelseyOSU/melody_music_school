@@ -9,13 +9,13 @@
 # passwd = 'super_secret_password' #CHANGE ME
 # db = 'cs340_ONID' #CHANGE ME
 
-host = "127.0.0.1"
-user = "root"
-db = "cs340_zengxi"
-passwd=""
+# host = "127.0.0.1"
+# user = "root"
+# db = "cs340_zengxi"
+# passwd=""
 
-# # for server use
-# host = 'classmysql.engr.oregonstate.edu'
-# user = 'cs340_zengxi'
-# passwd = '8984'
-# db = 'cs340_zengxi'
+# for server use
+host = 'classmysql.engr.oregonstate.edu'
+user = 'cs340_zengxi'
+passwd = '8984'
+db = 'cs340_zengxi'
