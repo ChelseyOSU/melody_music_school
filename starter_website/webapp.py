@@ -20,7 +20,7 @@ def about_us():
 def browse_students():
     print("Fetching and rendering students web page")
     db_connection = connect_to_database()
-    query = "SELECT studentFirstName, studentLastName, studentAge, studentID, studentAvatarLink from students;"
+    query = "SELECT studentFirstName, studentLastName, studentAge, studentID, studentAvatarLink from Students;"
     result = execute_query(db_connection, query).fetchall();
     print(result)
     return render_template('student_browse.html', rows=result)
@@ -30,7 +30,7 @@ def browse_students():
 def add_new_student():
     db_connection = connect_to_database()
     if request.method == 'GET':
-        query = 'SELECT studentFirstName, studentLastName, studentAge, studentID, studentAvatarLink from students;'
+        query = 'SELECT studentFirstName, studentLastName, studentAge, studentID, studentAvatarLink from Students;'
         result = execute_query(db_connection, query).fetchall();
         print(result)
         return render_template('student_add_new.html', students=result)
@@ -42,7 +42,7 @@ def add_new_student():
         age = request.form['age']
         avatar_link = request.form['avatar_link']
 
-        query = 'INSERT INTO students (studentFirstName, studentLastName, studentAge, studentAvatarLink) VALUES (%s,%s,%s,%s)'
+        query = 'INSERT INTO Students (studentFirstName, studentLastName, studentAge, studentAvatarLink) VALUES (%s,%s,%s,%s)'
         data = (first_name, last_name, age, avatar_link)
         execute_query(db_connection, query, data)
         return redirect('/browse_students')
@@ -54,7 +54,7 @@ def update_student(id):
     db_connection = connect_to_database()
     # display existing data
     if request.method == 'GET':
-        student_query = 'SELECT studentID, studentFirstName, studentLastName, studentAge from students WHERE studentID = %s' % (id)
+        student_query = 'SELECT studentID, studentFirstName, studentLastName, studentAge from Students WHERE studentID = %s' % (id)
         student_result = execute_query(db_connection, student_query).fetchone()
 
         if student_result is None:
@@ -84,7 +84,7 @@ def update_student(id):
 def delete_student(id):
     '''deletes a person with the given id'''
     db_connection = connect_to_database()
-    query = "DELETE FROM students WHERE studentID = %s"
+    query = "DELETE FROM Students WHERE studentID = %s"
     data = (id,)
 
     result = execute_query(db_connection, query, data)
@@ -129,7 +129,7 @@ def browse_grades():
         print("Fetching and rendering grades web page")
         db_connection = connect_to_database()
         # display existing data
-        grade_query = 'SELECT grade_report.className, studentFirstName, studentLastName, grade, transcriptId FROM Grade_report INNER JOIN Classes ON Grade_report.classId = Classes.classID WHERE Grade_report.classId  = %s ORDER BY grade DESC;' %(id)
+        grade_query = 'SELECT Grade_report.className, studentFirstName, studentLastName, grade, transcriptId FROM Grade_report INNER JOIN Classes ON Grade_report.classId = Classes.classID WHERE Grade_report.classId  = %s ORDER BY grade DESC;' %(id)
         grade_result = execute_query(db_connection, grade_query).fetchall();
         print(grade_result)
         if grade_result is None:
