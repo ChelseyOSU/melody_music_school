@@ -20,7 +20,7 @@ def about_us():
 def browse_students():
     print("Fetching and rendering students web page")
     db_connection = connect_to_database()
-    query = "SELECT first_name, last_name, age, id, avatar_link from students;"
+    query = "SELECT studentFirstName, studentLastName, studentAge, studentID, studentAvatarLink from students;"
     result = execute_query(db_connection, query).fetchall();
     print(result)
     return render_template('student_browse.html', rows=result)
@@ -30,7 +30,7 @@ def browse_students():
 def add_new_student():
     db_connection = connect_to_database()
     if request.method == 'GET':
-        query = 'SELECT first_name, last_name, age, id, avatar_link from students'
+        query = 'SELECT studentFirstName, studentLastName, studentAge, studentID, studentAvatarLink from students;'
         result = execute_query(db_connection, query).fetchall();
         print(result)
         return render_template('student_add_new.html', students=result)
@@ -42,7 +42,7 @@ def add_new_student():
         age = request.form['age']
         avatar_link = request.form['avatar_link']
 
-        query = 'INSERT INTO students (first_name, last_name, age, avatar_link) VALUES (%s,%s,%s,%s)'
+        query = 'INSERT INTO students (studentFirstName, studentLastName, studentAge, studentAvatarLink) VALUES (%s,%s,%s,%s)'
         data = (first_name, last_name, age, avatar_link)
         execute_query(db_connection, query, data)
         return redirect('/browse_students')
@@ -54,7 +54,7 @@ def update_student(id):
     db_connection = connect_to_database()
     # display existing data
     if request.method == 'GET':
-        student_query = 'SELECT id, first_name, last_name, age from students WHERE id = %s' % (id)
+        student_query = 'SELECT studentID, studentFirstName, studentLastName, studentAge from students WHERE studentID = %s' % (id)
         student_result = execute_query(db_connection, student_query).fetchone()
 
         if student_result is None:
@@ -73,7 +73,7 @@ def update_student(id):
 
         print(request.form);
 
-        query = "UPDATE students SET first_name = %s, last_name = %s, age = %s  WHERE id = %s"
+        query = "UPDATE Students SET studentFirstName = %s, studentLastName = %s, studentAge = %s  WHERE studentID = %s"
         data = (first_name, last_name, age, student_id)
         result = execute_query(db_connection, query, data)
         print(str(result.rowcount) + " row(s) updated");
@@ -84,7 +84,7 @@ def update_student(id):
 def delete_student(id):
     '''deletes a person with the given id'''
     db_connection = connect_to_database()
-    query = "DELETE FROM students WHERE id = %s"
+    query = "DELETE FROM students WHERE studentID = %s"
     data = (id,)
 
     result = execute_query(db_connection, query, data)
@@ -97,11 +97,11 @@ def browse_courses():
     print("Fetching and rendering students web page")
     db_connection = connect_to_database()
     query = """
-    SELECT classes.id, name, description, GROUP_CONCAT(first_name, " ", last_name SEPARATOR ", ") AS student_names from classes
-    INNER JOIN enrollments ON classes.id = enrollments.class_id
-    INNER JOIN students ON enrollments.student_id = students.id
-    GROUP BY classes.id
-    ORDER BY classes.id;
+    SELECT Classes.classID, Classes.className, classDescription, GROUP_CONCAT(studentFirstName, " ", studentLastName SEPARATOR ", ") AS student_names from Classes
+    INNER JOIN Enrollments ON Classes.classID = Enrollments.classId
+    INNER JOIN Students ON Enrollments.studentId = Students.studentID
+    GROUP BY Classes.classID
+    ORDER BY Classes.classID;
     """
     result = execute_query(db_connection, query).fetchall();
     print(result)
@@ -113,8 +113,8 @@ def browse_grades_start():
     print("Fetching and rendering browse grades dropdown list")
     db_connection = connect_to_database()
     course_query = """
-    SELECT id, name FROM classes
-    ORDER BY id;
+    SELECT classID, className FROM Classes
+    ORDER BY classID;
     """
     course_result = execute_query(db_connection, course_query).fetchall()
     print(course_result)
@@ -129,23 +129,12 @@ def browse_grades():
         print("Fetching and rendering grades web page")
         db_connection = connect_to_database()
         # display existing data
-        grade_query = 'SELECT name, first_name, last_name, grade, grade_report.id FROM grade_report INNER JOIN classes ON grade_report.class_id = classes.id WHERE class_id = %s ORDER BY grade DESC;' %(id)
+        grade_query = 'SELECT grade_report.className, studentFirstName, studentLastName, grade, transcriptId FROM Grade_report INNER JOIN Classes ON Grade_report.classId = Classes.classID WHERE Grade_report.classId  = %s ORDER BY grade DESC;' %(id)
         grade_result = execute_query(db_connection, grade_query).fetchall();
         print(grade_result)
         if grade_result is None:
             return "No such course found in the database!"
         return render_template('grade_browse.html', rows=grade_result)
-
-
-    # query = """
-    # SELECT name, first_name, last_name, grade, grade_report.id FROM grade_report
-    # INNER JOIN classes ON grade_report.class_id = classes.id
-    # WHERE name = 'Classic Music Theory'
-    # ORDER BY grade DESC;
-    # """
-    # result = execute_query(db_connection, query).fetchall();
-    # print(result)
-    # return render_template('grade_browse.html', rows=result)
 
 
 # display update form and process any updates, using the same function
@@ -154,7 +143,7 @@ def update_grade(id):
     db_connection = connect_to_database()
     # display existing data
     if request.method == 'GET':
-        grade_query = "SELECT id, class_name, first_name, last_name, grade from grade_report WHERE id = '%s'" % (id)
+        grade_query = "SELECT transcriptId, className, studentFirstName, studentLastName, grade from Grade_report WHERE transcriptId = '%s'" % (id)
         grade_result = execute_query(db_connection, grade_query).fetchone()
 
         if grade_result is None:
@@ -168,8 +157,20 @@ def update_grade(id):
 
         print(request.form);
 
-        query = "UPDATE grade_report SET grade = %s WHERE id = %s"
+        query = "UPDATE Grade_report SET grade = %s WHERE transcriptId = %s"
         data = (grade, grade_id)
         result = execute_query(db_connection, query, data)
         print(str(result.rowcount) + " row(s) updated");
         return redirect('/browse_grades_start')
+
+
+@webapp.route('/delete_grade/<int:id>')
+def delete_grade(id):
+    '''deletes a grade record with the given id'''
+    db_connection = connect_to_database()
+    query = "DELETE FROM Grade_report WHERE transcriptId = %s"
+    data = (id,)
+
+    result = execute_query(db_connection, query, data)
+    print(str(result.rowcount) + " row(s) deleted");
+    return redirect('browse_grades_start')

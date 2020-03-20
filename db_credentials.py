@@ -11,7 +11,7 @@
 
 host = "127.0.0.1"
 user = "root"
-db = "bsg2"
+db = "cs340_zengxi"
 passwd=""
 
 # # for server use
